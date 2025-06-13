@@ -16,6 +16,7 @@ Display your in-game location from **Star Citizen** directly in Discord Rich Pre
 - 🤖 **Discord Rich Presence** integration
 - 📸 Optional debug screenshots
 - ⚙️ Easily configurable settings
+- 🪐 Stanton System added(Still testing every location as it has to be added manually), Pyro coming soon
 
 ---
 
@@ -68,7 +69,7 @@ You can edit the following options at the top of starcitizen_presence.py:
 
 -🧊 Standalone .exe version (no Python required)
 
--Fixes for Stanton and Add Pyro
+-🪐 Fixes for Stanton and Add Pyro
 
 ---
 
