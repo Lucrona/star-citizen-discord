@@ -1,4 +1,5 @@
 # --- STANTON SYSTEM ---
+
 INVALID_LOCATION_ID=Main Menu
 
 # -- Stanton I: Hurston --
