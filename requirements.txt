@@ -1,5 +1,7 @@
 easyocr
-pillow
+numpy
+Pillow
 screeninfo
 pypresence
+requests
 torch
