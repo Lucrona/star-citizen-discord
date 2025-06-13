@@ -1,3 +1,5 @@
+import sys
+sys.stderr = open("error_log.txt", "w", encoding="utf-8")
 import time
 import os
 import requests
@@ -19,10 +21,9 @@ ENABLE_LOGGING_LOCATION = True
 ENABLE_LOGGING_LZ = True
 AUTO_UPDATE_ALIASES = True
 
-# GitHub settings
 GITHUB_RAW_ALIAS_URL = "https://raw.githubusercontent.com/Lucrona/star-citizen-discord/main/location_aliases.txt"
-GITHUB_VERSION_URL = "https://raw.githubusercontent.com/Lucrona/star-citizen-discord/main/version.txt"
-LOCAL_VERSION_FILE = "location_version.txt"
+GITHUB_VERSION_URL = "https://raw.githubusercontent.com/Lucrona/star-citizen-discord/main/loc_version.txt"
+LOCAL_VERSION_FILE = "loc_version.txt"
 
 # ================================
 # 🌐 AUTO-UPDATE FROM GITHUB
@@ -47,7 +48,11 @@ def update_location_aliases_from_github():
     remote_version = get_remote_version()
     local_version = get_local_version()
 
-    if remote_version and remote_version != local_version:
+    if not remote_version:
+        print("⚠️ Could not fetch remote version. Skipping update.")
+        return
+
+    if remote_version != local_version:
         print(f"📦 New version available: {remote_version} (Local: {local_version})")
         try:
             r = requests.get(GITHUB_RAW_ALIAS_URL, timeout=5)
@@ -57,6 +62,8 @@ def update_location_aliases_from_github():
                 with open(LOCAL_VERSION_FILE, "w", encoding="utf-8") as f:
                     f.write(remote_version)
                 print("✅ location_aliases.txt updated from GitHub.")
+            else:
+                print(f"❌ Failed to download alias file: HTTP {r.status_code}")
         except Exception as e:
             print(f"❌ GitHub update error: {e}")
     else:
@@ -66,16 +73,19 @@ def update_location_aliases_from_github():
 # 📂 LOAD LOCATION ALIASES
 # ================================
 def load_location_aliases(filename="location_aliases.txt"):
+    if not os.path.exists(filename):
+        print("❌ Alias file not found. Creating fallback.")
+        with open(filename, "w", encoding="utf-8") as f:
+            f.write("# No aliases found.\n")
     aliases = {}
-    try:
-        with open(filename, "r", encoding="utf-8") as f:
-            for line in f:
-                if "=" in line:
-                    key, val = line.strip().split("=", 1)
-                    aliases[key.strip()] = val.strip()
-    except FileNotFoundError:
-        print("❌ Alias file not found. Using raw OCR values.")
+    with open(filename, "r", encoding="utf-8") as f:
+        for line in f:
+            if "=" in line:
+                key, val = line.strip().split("=", 1)
+                aliases[key.strip()] = val.strip()
     return aliases
+
+location_aliases = {}
 
 # ================================
 # 📝 LOGGING UNMATCHED NAMES
@@ -116,16 +126,25 @@ def resolve_location_name(ocr_name):
     return ocr_name
 
 # ================================
-# 🖥️ MONITOR SETUP
+# 💻 MONITOR SETUP
 # ================================
-monitor = get_monitors()[0]
-screen_width = monitor.width
-screen_height = monitor.height
+try:
+    monitor = get_monitors()[0]
+    screen_width = monitor.width
+    screen_height = monitor.height
+except Exception as e:
+    print(f"❌ Unable to detect monitor resolution: {e}")
+    screen_width = 1920
+    screen_height = 1080
 
 # ================================
 # 🔠 EASYOCR INITIALIZATION
 # ================================
-reader = easyocr.Reader(['en'], gpu=True)
+try:
+    reader = easyocr.Reader(['en'], gpu=True)
+except Exception as e:
+    print(f"⚠️ GPU OCR init failed: {e}. Trying CPU mode...")
+    reader = easyocr.Reader(['en'], gpu=False)
 
 # ================================
 # 📸 BOUNDING BOX FOR SCREEN CAPTURE
