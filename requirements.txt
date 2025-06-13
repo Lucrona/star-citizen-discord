@@ -1,0 +1,5 @@
+easyocr
+pillow
+screeninfo
+pypresence
+torch
