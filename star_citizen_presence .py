@@ -1,5 +1,3 @@
-import sys
-sys.stderr = open("error_log.txt", "w", encoding="utf-8")
 import time
 import os
 import requests
@@ -24,6 +22,10 @@ AUTO_UPDATE_ALIASES = True
 GITHUB_RAW_ALIAS_URL = "https://raw.githubusercontent.com/Lucrona/star-citizen-discord/main/location_aliases.txt"
 GITHUB_VERSION_URL = "https://raw.githubusercontent.com/Lucrona/star-citizen-discord/main/loc_version.txt"
 LOCAL_VERSION_FILE = "loc_version.txt"
+
+MAIN_MENU_NOISE = {
+    "o,_qdfinalize", "qdfinalize", "2,_qdfinalize"
+}
 
 # ================================
 # 🌐 AUTO-UPDATE FROM GITHUB
@@ -72,20 +74,29 @@ def update_location_aliases_from_github():
 # ================================
 # 📂 LOAD LOCATION ALIASES
 # ================================
+def normalize_ocr(text):
+    return (
+        text.lower()
+            .replace(" ", "_")
+            .replace("1", "l")
+            .replace("0", "o")
+            .replace("|", "i")
+    )
+
 def load_location_aliases(filename="location_aliases.txt"):
     if not os.path.exists(filename):
         print("❌ Alias file not found. Creating fallback.")
         with open(filename, "w", encoding="utf-8") as f:
             f.write("# No aliases found.\n")
+
     aliases = {}
     with open(filename, "r", encoding="utf-8") as f:
         for line in f:
             if "=" in line:
                 key, val = line.strip().split("=", 1)
-                aliases[key.strip()] = val.strip()
+                normalized_key = normalize_ocr(key.strip())
+                aliases[normalized_key] = val.strip()
     return aliases
-
-location_aliases = {}
 
 # ================================
 # 📝 LOGGING UNMATCHED NAMES
@@ -112,39 +123,27 @@ def resolve_location_name(ocr_name):
     if not ocr_name or len(ocr_name) < 3:
         return "Unknown"
 
-    replacements = {"tonz": "stanton2"}
-    for wrong, right in replacements.items():
-        ocr_name = ocr_name.lower().replace(wrong, right)
-
+    ocr_name = normalize_ocr(ocr_name.strip())
     keys = list(location_aliases.keys())
-    best = difflib.get_close_matches(ocr_name, keys, n=1, cutoff=0.6)
+    best = difflib.get_close_matches(ocr_name, keys, n=3, cutoff=0.7)
 
     if best:
         return location_aliases[best[0]]
 
     log_unmatched_location(ocr_name)
-    return ocr_name
+    return "Unknown"
 
 # ================================
 # 💻 MONITOR SETUP
 # ================================
-try:
-    monitor = get_monitors()[0]
-    screen_width = monitor.width
-    screen_height = monitor.height
-except Exception as e:
-    print(f"❌ Unable to detect monitor resolution: {e}")
-    screen_width = 1920
-    screen_height = 1080
+monitor = get_monitors()[0]
+screen_width = monitor.width
+screen_height = monitor.height
 
 # ================================
 # 🔠 EASYOCR INITIALIZATION
 # ================================
-try:
-    reader = easyocr.Reader(['en'], gpu=True)
-except Exception as e:
-    print(f"⚠️ GPU OCR init failed: {e}. Trying CPU mode...")
-    reader = easyocr.Reader(['en'], gpu=False)
+reader = easyocr.Reader(['en'], gpu=True)
 
 # ================================
 # 📸 BOUNDING BOX FOR SCREEN CAPTURE
@@ -168,25 +167,28 @@ def get_location_text():
 
     img_np = np.array(screenshot)
     results = reader.readtext(img_np)
-    texts = [text for (_, text, _) in results]
+    texts = [text for (_, text, conf) in results if conf > 0.4 and len(text.strip()) > 2]
     flat_text = " ".join([t.lower() for t in texts])
 
-    # --- Check for 'Current player location' ---
+    for text in texts:
+        clean = normalize_ocr(text)
+        if clean in MAIN_MENU_NOISE:
+            return resolve_location_name("INVALID_LOCATION_ID")
+
     if "current player location" in flat_text:
         for i, text in enumerate(texts):
             if "location" in text.lower():
                 for j in range(i + 1, len(texts)):
-                    loc_candidate = texts[j].strip(" :–-_()")
+                    loc_candidate = texts[j].strip("()")
                     if len(loc_candidate) >= 3 and any(c.isalnum() or c == "_" for c in loc_candidate):
                         return resolve_location_name(loc_candidate)
         log_unmatched_location("NO_VALID_LOCATION_TEXT")
 
-    # --- Fuzzy match for "LZ" ---
     for i, text in enumerate(texts):
-        clean_text = text.lower().strip("()[]: ")
+        clean_text = text.lower().strip("()[] ")
         if difflib.get_close_matches(clean_text, ["lz", "lz:"], n=1, cutoff=0.6):
             for j in range(i + 1, len(texts)):
-                lz_candidate = texts[j].strip(" :–-_()")
+                lz_candidate = texts[j].strip("()")
                 if len(lz_candidate) >= 3 and any(c.isalnum() or c == "_" for c in lz_candidate):
                     resolved = resolve_location_name(lz_candidate)
                     if resolved == lz_candidate:
