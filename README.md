@@ -65,7 +65,10 @@ You can edit the following options at the top of starcitizen_presence.py:
 ## 📘 Coming Soon
 
 -🖼️ GUI launcher
+
 -🧊 Standalone .exe version (no Python required)
+
+-Fixes for Stanton and Add Pyro
 
 ---
 🤝 Contributing
