@@ -45,7 +45,7 @@ Discord server coming soon for easier communication
    python main.py
 
 ⚙️ Configuration
-Inside main.py:
+Inside starcitizen_presence.py:
 
 Option	Description
 CAPTURE_INTERVAL	How often to update location (in seconds)
