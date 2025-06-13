@@ -2,18 +2,17 @@
 
 Display your in-game location from **Star Citizen** directly in Discord Rich Presence, powered by OCR, alias mapping, and auto-updating data.
 
-Discord server coming soon for easier communication
+> Discord server coming soon for easier communication
 
 ![image](https://i.imgur.com/PZC7QJg.png)
 
 ---
 
-## ✨ Features
+## 🚀 Features
 
-- 🔍 **In-game location detection** using EasyOCR
-- 🧠 **Alias matching** with fuzzy logic
+- 🔍 **Detects and displays** your current Star Citizen location
+- 🧠 **Uses EasyOCR** to scan your screen dynamically
 - 🔄 **Auto-updating** location alias file via GitHub
-- 🗺️ Supports both current player location and landing zone (LZ)
 - 🤖 **Discord Rich Presence** integration
 - 📸 Optional debug screenshots
 - ⚙️ Easily configurable settings
@@ -22,7 +21,7 @@ Discord server coming soon for easier communication
 
 ## 🛠️ Requirements
 
-- Python 3.8+
+- Python **3.8+**
 - Required packages (install with `pip install -r requirements.txt`):
   - `easyocr`
   - `pillow`
@@ -30,6 +29,7 @@ Discord server coming soon for easier communication
   - `pypresence`
   - `requests`
   - `numpy`
+  - `torch`
 
 ---
 
@@ -42,28 +42,36 @@ Discord server coming soon for easier communication
 2. ```bash
    pip install -r requirements.txt
 4. ```bash
-   python main.py
+   python starcitizen_presence.py
 
-⚙️ Configuration
-Inside starcitizen_presence.py:
+---
 
-Option	Description
-CAPTURE_INTERVAL	How often to update location (in seconds)
-USE_DISCORD	Toggle Discord RPC on/off
-SAVE_DEBUG_IMAGE	Saves a screenshot of the OCR region
-AUTO_UPDATE_ALIASES	Pull updated aliases from GitHub
+## 💡 Customization
+You can edit the following options at the top of starcitizen_presence.py:
 
-Alias mappings are stored in location_aliases.txt. Auto-updates check against the version in loc_version.txt.
+| Option                | Description                               |
+| --------------------- | ----------------------------------------- |
+| `CAPTURE_INTERVAL`    | How often to update location (in seconds) |
+| `USE_DISCORD`         | Toggle Discord Rich Presence on/off       |
+| `SAVE_DEBUG_IMAGE`    | Save OCR region as image for debugging    |
+| `AUTO_UPDATE_ALIASES` | Enable auto-updating from GitHub          |
 
-🚧 GUI & Executable
-GUI and executable (.exe) build coming soon.
 
-The tool will be bundled with all dependencies and support auto-updating aliases.
+- Alias mappings are stored in location_aliases.txt. Auto-updates check against the version in loc_version.txt.
+- Version checks are managed via loc_version.txt
 
+ ---
+
+## 📘 Coming Soon
+
+-🖼️ GUI launcher
+-🧊 Standalone .exe version (no Python required)
+
+---
 🤝 Contributing
 PRs welcome! Please test changes thoroughly and follow the current structure for aliases and logic.
-
+---
 📜 License
 MIT – use freely, modify as needed.
-
+---
 Made for the Verse by Lucrona
