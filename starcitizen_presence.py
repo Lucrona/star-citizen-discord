@@ -1,3 +1,11 @@
+# ================================
+# 🛰️ STAR CITIZEN DISCORD PRESENCE
+# ================================
+
+__version__ = "0.01"
+
+print(f"🚀 Star Citizen Rich Presence v{__version__} Started")
+
 import time
 import os
 import requests
