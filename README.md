@@ -32,6 +32,7 @@ Display your in-game location from **Star Citizen** directly in Discord Rich Pre
   - `requests`
   - `numpy`
   - `torch`
+ - r_displayinfo 2
 
 ---
 
