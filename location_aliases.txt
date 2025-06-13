@@ -218,3 +218,8 @@ Stanton4c_Euterpe=Euterpe
 Buds_Growery=Bud's Growery
 Devlin_Scrap_and_Salvage=Devlin Scrap & Salvage
 Icebreaker=Icebreaker
+
+
+RR_JP_StantonPyro=Pyro Gateway
+
+# --- PYRO SYSTEM ---
