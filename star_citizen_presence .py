@@ -236,7 +236,7 @@ def main():
 
             if USE_DISCORD and rpc:
                 rpc.update(
-                    details=f"At {location}",
+                    # details=f"In {location}",  # You can re-enable this later,
                     large_image="starcitizen",
                     start=int(start_time)
                 )
