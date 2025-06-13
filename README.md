@@ -72,6 +72,10 @@ You can edit the following options at the top of starcitizen_presence.py:
 
 -🪐 Fixes for Stanton and Add Pyro
 
+-🏴‍☠️ Stealth mode to hide your location on discord
+
+-![image](https://i.imgur.com/QnL33pl.png) Display RSI Name and Org
+
 ---
 
 ## 🤝 Contributing
