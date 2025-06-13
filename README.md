@@ -71,10 +71,12 @@ You can edit the following options at the top of starcitizen_presence.py:
 -Fixes for Stanton and Add Pyro
 
 ---
-🤝 Contributing
-PRs welcome! Please test changes thoroughly and follow the current structure for aliases and logic.
+
+## 🤝 Contributing
+- PRs welcome! Please test changes thoroughly and follow the current structure for aliases and logic.
+
 ---
-📜 License
-MIT – use freely, modify as needed.
+## 📜 License
+- MIT – use freely, modify as needed.
 ---
-Made for the Verse by Lucrona
+# Made for the Verse by Lucrona
