@@ -2,7 +2,7 @@
 # 🛰️ STAR CITIZEN DISCORD PRESENCE
 # ================================
 
-__version__ = "0.01"
+__version__ = "0.02"
 
 print(f"🚀 Star Citizen Rich Presence v{__version__} Started")
 
@@ -53,10 +53,11 @@ def get_remote_version():
         print(f"⚠️ Version check failed: {e}")
     return None
 
-def update_location_aliases_from_github():
+def update_location_aliases_from_github(remote_version=None):
     print("🔄 Checking for location data update...")
-    remote_version = get_remote_version()
     local_version = get_local_version()
+    if remote_version is None:
+        remote_version = get_remote_version()
 
     if not remote_version:
         print("⚠️ Could not fetch remote version. Skipping update.")
@@ -78,6 +79,15 @@ def update_location_aliases_from_github():
             print(f"❌ GitHub update error: {e}")
     else:
         print("✔️ location_aliases.txt is up to date.")
+
+def display_alias_version(remote_version=None):
+    print(f"📄 Local alias version:  {get_local_version()}")
+    if remote_version is None:
+        remote_version = get_remote_version()
+    if remote_version:
+        print(f"🌐 Remote alias version: {remote_version}")
+    else:
+        print("⚠️ Could not fetch remote alias version.")
 
 # ================================
 # 📂 LOAD LOCATION ALIASES
@@ -130,14 +140,11 @@ def log_unmatched_lz(name):
 def resolve_location_name(ocr_name):
     if not ocr_name or len(ocr_name) < 3:
         return "Unknown"
-
     ocr_name = normalize_ocr(ocr_name.strip())
     keys = list(location_aliases.keys())
     best = difflib.get_close_matches(ocr_name, keys, n=3, cutoff=0.7)
-
     if best:
         return location_aliases[best[0]]
-
     log_unmatched_location(ocr_name)
     return "Unknown"
 
@@ -169,20 +176,16 @@ def get_location_bbox():
 def get_location_text():
     bbox = get_location_bbox()
     screenshot = ImageGrab.grab(bbox=bbox)
-
     if SAVE_DEBUG_IMAGE:
         screenshot.save("debug_capture.png")
-
     img_np = np.array(screenshot)
     results = reader.readtext(img_np)
     texts = [text for (_, text, conf) in results if conf > 0.4 and len(text.strip()) > 2]
     flat_text = " ".join([t.lower() for t in texts])
-
     for text in texts:
         clean = normalize_ocr(text)
         if clean in MAIN_MENU_NOISE:
             return resolve_location_name("INVALID_LOCATION_ID")
-
     if "current player location" in flat_text:
         for i, text in enumerate(texts):
             if "location" in text.lower():
@@ -191,7 +194,6 @@ def get_location_text():
                     if len(loc_candidate) >= 3 and any(c.isalnum() or c == "_" for c in loc_candidate):
                         return resolve_location_name(loc_candidate)
         log_unmatched_location("NO_VALID_LOCATION_TEXT")
-
     for i, text in enumerate(texts):
         clean_text = text.lower().strip("()[] ")
         if difflib.get_close_matches(clean_text, ["lz", "lz:"], n=1, cutoff=0.6):
@@ -203,7 +205,6 @@ def get_location_text():
                         log_unmatched_lz(lz_candidate)
                     return resolved
             log_unmatched_lz("NO_VALID_LZ_TEXT")
-
     log_unmatched_location("NO_MATCH_FOUND")
     return "Unknown"
 
@@ -219,39 +220,33 @@ def init_discord():
 # 🚀 MAIN LOOP
 # ================================
 def main():
-    print("🚀 Star Citizen Rich Presence Started")
-
     if AUTO_UPDATE_ALIASES:
-        update_location_aliases_from_github()
-
+        remote_version = get_remote_version()
+        update_location_aliases_from_github(remote_version)
+        display_alias_version(remote_version)
     global location_aliases
     location_aliases = load_location_aliases()
-
     start_time = time.time()
     rpc = None
-
     if USE_DISCORD:
         try:
             rpc = init_discord()
         except Exception as e:
             print("⚠️ Discord RPC error:")
             print(e)
-
     while True:
         try:
             location = get_location_text()
             print(f"📍 Location: {location}")
-
             if USE_DISCORD and rpc:
                 rpc.update(
-                    details=f" {location}", #defines In or at location
+                    details=f" {location}",
                     large_image="starcitizen",
                     start=int(start_time)
                 )
         except Exception as e:
             print("❌ Error during loop:")
             print(e)
-
         time.sleep(CAPTURE_INTERVAL)
 
 # ================================
