@@ -1,4 +1,5 @@
 # --- Location Version 0.03 ---
+
 # --- STANTON SYSTEM ---
 
 INVALID_LOCATION_ID=Main Menu
