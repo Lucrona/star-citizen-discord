@@ -2,12 +2,12 @@
 # 🛰️ STAR CITIZEN DISCORD PRESENCE
 # ================================
 
-__version__ = "0.02"
+__version__ = "0.03"
 
 print(f"🚀 Star Citizen Rich Presence v{__version__} Started")
 
-import time
 import os
+import time
 import requests
 import numpy as np
 import easyocr
@@ -15,6 +15,24 @@ from PIL import ImageGrab
 from screeninfo import get_monitors
 from pypresence import Presence
 import difflib
+
+from pathlib import Path
+
+# ================================
+# 🗂️ DIRECTORY SETUP
+# ================================
+APPDATA_BASE = Path(os.getenv("APPDATA")) / "StarCitizenPresence"
+LOC_DIR = APPDATA_BASE / "Locations"
+DBG_DIR = APPDATA_BASE / "Debugging"
+
+LOC_DIR.mkdir(parents=True, exist_ok=True)
+DBG_DIR.mkdir(parents=True, exist_ok=True)
+
+ALIAS_FILE = LOC_DIR / "location_aliases.txt"
+VERSION_FILE = LOC_DIR / "loc_version.txt"
+UNMATCHED_LOC_LOG = DBG_DIR / "unmatched_locations.log"
+UNMATCHED_LZ_LOG = DBG_DIR / "unmatched_lz.log"
+DEBUG_IMAGE_PATH = DBG_DIR / "debug_capture.png"
 
 # ================================
 # 🔧 CONFIGURATION
@@ -27,38 +45,20 @@ ENABLE_LOGGING_LOCATION = True
 ENABLE_LOGGING_LZ = True
 AUTO_UPDATE_ALIASES = True
 
-# Folder paths
-LOCATION_DIR = "Locations"
-DEBUG_DIR = "Debugging"
-
-# File paths
-LOCATION_ALIAS_FILE = os.path.join(LOCATION_DIR, "location_aliases.txt")
-LOCAL_VERSION_FILE = os.path.join(LOCATION_DIR, "loc_version.txt")
-UNMATCHED_LOC_FILE = os.path.join(DEBUG_DIR, "unmatched_locations.log")
-UNMATCHED_LZ_FILE = os.path.join(DEBUG_DIR, "unmatched_lz.log")
-DEBUG_IMAGE_FILE = os.path.join(DEBUG_DIR, "debug_capture.png")
-
-# GitHub paths
-GITHUB_RAW_ALIAS_URL = "https://raw.githubusercontent.com/Lucrona/star-citizen-discord/main/location_aliases.txt"
-GITHUB_VERSION_URL = "https://raw.githubusercontent.com/Lucrona/star-citizen-discord/main/loc_version.txt"
+GITHUB_RAW_ALIAS_URL = "https://raw.githubusercontent.com/Lucrona/star-citizen-discord/main/Locations/location_aliases.txt"
+GITHUB_VERSION_URL = "https://raw.githubusercontent.com/Lucrona/star-citizen-discord/main/Locations/loc_version.txt"
 
 MAIN_MENU_NOISE = {
     "o,_qdfinalize", "qdfinalize", "2,_qdfinalize"
 }
 
 # ================================
-# 📁 Ensure Directories Exist
-# ================================
-os.makedirs(LOCATION_DIR, exist_ok=True)
-os.makedirs(DEBUG_DIR, exist_ok=True)
-
-# ================================
 # 🌐 AUTO-UPDATE FROM GITHUB
 # ================================
 def get_local_version():
-    if not os.path.exists(LOCAL_VERSION_FILE):
+    if not VERSION_FILE.exists():
         return "0.0.0"
-    with open(LOCAL_VERSION_FILE, "r", encoding="utf-8") as f:
+    with open(VERSION_FILE, "r", encoding="utf-8") as f:
         return f.read().strip()
 
 def get_remote_version():
@@ -74,18 +74,20 @@ def update_location_aliases_from_github(remote_version=None):
     print("🔄 Checking for location data update...")
     if remote_version is None:
         remote_version = get_remote_version()
-    local_version = get_local_version()
+
     if not remote_version:
         print("⚠️ Could not fetch remote version. Skipping update.")
         return
+
+    local_version = get_local_version()
     if remote_version != local_version:
         print(f"📦 New version available: {remote_version} (Local: {local_version})")
         try:
             r = requests.get(GITHUB_RAW_ALIAS_URL, timeout=5)
             if r.status_code == 200:
-                with open(LOCATION_ALIAS_FILE, "w", encoding="utf-8") as f:
+                with open(ALIAS_FILE, "w", encoding="utf-8") as f:
                     f.write(r.text)
-                with open(LOCAL_VERSION_FILE, "w", encoding="utf-8") as f:
+                with open(VERSION_FILE, "w", encoding="utf-8") as f:
                     f.write(remote_version)
                 print("✅ location_aliases.txt updated from GitHub.")
             else:
@@ -117,40 +119,39 @@ def normalize_ocr(text):
     )
 
 def load_location_aliases():
-    if not os.path.exists(LOCATION_ALIAS_FILE):
+    if not ALIAS_FILE.exists():
         print("❌ Alias file not found. Creating fallback.")
-        with open(LOCATION_ALIAS_FILE, "w", encoding="utf-8") as f:
+        with open(ALIAS_FILE, "w", encoding="utf-8") as f:
             f.write("# No aliases found.\n")
 
     aliases = {}
-    with open(LOCATION_ALIAS_FILE, "r", encoding="utf-8") as f:
+    with open(ALIAS_FILE, "r", encoding="utf-8") as f:
         for line in f:
             if "=" in line:
                 key, val = line.strip().split("=", 1)
-                normalized_key = normalize_ocr(key.strip())
-                aliases[normalized_key] = val.strip()
+                aliases[normalize_ocr(key.strip())] = val.strip()
     return aliases
 
 # ================================
-# 📝 LOGGING UNMATCHED NAMES
+# 📝 LOGGING
 # ================================
 logged_location_misses = set()
 logged_lz_misses = set()
 
 def log_unmatched_location(name):
     if ENABLE_LOGGING_LOCATION and len(name) >= 3 and name not in logged_location_misses:
-        with open(UNMATCHED_LOC_FILE, "a", encoding="utf-8") as f:
+        with open(UNMATCHED_LOC_LOG, "a", encoding="utf-8") as f:
             f.write(f"{name}\n")
         logged_location_misses.add(name)
 
 def log_unmatched_lz(name):
     if ENABLE_LOGGING_LZ and len(name) >= 3 and name not in logged_lz_misses:
-        with open(UNMATCHED_LZ_FILE, "a", encoding="utf-8") as f:
+        with open(UNMATCHED_LZ_LOG, "a", encoding="utf-8") as f:
             f.write(f"{name}\n")
         logged_lz_misses.add(name)
 
 # ================================
-# 🔍 FUZZY RESOLUTION
+# 🔍 FUZZY LOCATION RESOLUTION
 # ================================
 def resolve_location_name(ocr_name):
     if not ocr_name or len(ocr_name) < 3:
@@ -164,20 +165,13 @@ def resolve_location_name(ocr_name):
     return "Unknown"
 
 # ================================
-# 💻 MONITOR SETUP
+# 🔠 OCR SETUP
 # ================================
 monitor = get_monitors()[0]
 screen_width = monitor.width
 screen_height = monitor.height
+reader = easyocr.Reader(['en'], gpu=False)
 
-# ================================
-# 🔠 EASYOCR INITIALIZATION
-# ================================
-reader = easyocr.Reader(['en'], gpu=True)
-
-# ================================
-# 📸 BOUNDING BOX FOR SCREEN CAPTURE
-# ================================
 def get_location_bbox():
     left = int(screen_width * 0.75)
     top = int(screen_height * 0.00)
@@ -185,43 +179,36 @@ def get_location_bbox():
     bottom = int(screen_height * 0.60)
     return (left, top, right, bottom)
 
-# ================================
-# 🔎 OCR TEXT DETECTION
-# ================================
 def get_location_text():
-    bbox = get_location_bbox()
-    screenshot = ImageGrab.grab(bbox=bbox)
+    screenshot = ImageGrab.grab(bbox=get_location_bbox())
     if SAVE_DEBUG_IMAGE:
-        screenshot.save(DEBUG_IMAGE_FILE)
-
+        screenshot.save(DEBUG_IMAGE_PATH)
     img_np = np.array(screenshot)
     results = reader.readtext(img_np)
     texts = [text for (_, text, conf) in results if conf > 0.4 and len(text.strip()) > 2]
     flat_text = " ".join([t.lower() for t in texts])
 
     for text in texts:
-        clean = normalize_ocr(text)
-        if clean in MAIN_MENU_NOISE:
+        if normalize_ocr(text) in MAIN_MENU_NOISE:
             return resolve_location_name("INVALID_LOCATION_ID")
 
     if "current player location" in flat_text:
         for i, text in enumerate(texts):
             if "location" in text.lower():
                 for j in range(i + 1, len(texts)):
-                    loc_candidate = texts[j].strip("()")
-                    if len(loc_candidate) >= 3 and any(c.isalnum() or c == "_" for c in loc_candidate):
-                        return resolve_location_name(loc_candidate)
+                    candidate = texts[j].strip("()")
+                    if len(candidate) >= 3:
+                        return resolve_location_name(candidate)
         log_unmatched_location("NO_VALID_LOCATION_TEXT")
 
     for i, text in enumerate(texts):
-        clean_text = text.lower().strip("()[] ")
-        if difflib.get_close_matches(clean_text, ["lz", "lz:"], n=1, cutoff=0.6):
+        if difflib.get_close_matches(text.lower().strip("()[] "), ["lz", "lz:"], n=1, cutoff=0.6):
             for j in range(i + 1, len(texts)):
-                lz_candidate = texts[j].strip("()")
-                if len(lz_candidate) >= 3 and any(c.isalnum() or c == "_" for c in lz_candidate):
-                    resolved = resolve_location_name(lz_candidate)
-                    if resolved == lz_candidate:
-                        log_unmatched_lz(lz_candidate)
+                candidate = texts[j].strip("()")
+                if len(candidate) >= 3:
+                    resolved = resolve_location_name(candidate)
+                    if resolved == candidate:
+                        log_unmatched_lz(candidate)
                     return resolved
             log_unmatched_lz("NO_VALID_LZ_TEXT")
 
@@ -237,7 +224,7 @@ def init_discord():
     return rpc
 
 # ================================
-# 🚀 MAIN LOOP
+# 🚀 MAIN
 # ================================
 def main():
     if AUTO_UPDATE_ALIASES:
@@ -249,13 +236,7 @@ def main():
     location_aliases = load_location_aliases()
 
     start_time = time.time()
-    rpc = None
-    if USE_DISCORD:
-        try:
-            rpc = init_discord()
-        except Exception as e:
-            print("⚠️ Discord RPC error:")
-            print(e)
+    rpc = init_discord() if USE_DISCORD else None
 
     while True:
         try:
@@ -273,7 +254,7 @@ def main():
         time.sleep(CAPTURE_INTERVAL)
 
 # ================================
-# 🎯 ENTRY POINT
+# 🎯 ENTRY
 # ================================
 if __name__ == "__main__":
     main()
