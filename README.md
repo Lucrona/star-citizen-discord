@@ -22,6 +22,7 @@ Display your current in-game location from **Star Citizen** directly in Discord 
 - 🖼️ GUI launcher with system tray icon  
 - 🪐 Pyro System  
 - ![screenshot](https://i.imgur.com/3WOnWIo.png) RSI Profile link and ORG
+- Code optmizations 
 
 ---
 
