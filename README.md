@@ -2,7 +2,8 @@
 
 Display your current in-game location from **Star Citizen** directly in Discord Rich Presence — automatically.
 
-![screenshot](https://i.imgur.com/PZC7QJg.png)
+![screenshot](https://i.imgur.com/PZC7QJg.png)    <img src="https://i.imgur.com/DGgfxVK.png" width="270" height="110" />
+
 
 ---
 
