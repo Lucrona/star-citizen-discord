@@ -1,0 +1,228 @@
+# --- Location Version 0.04 ---
+
+# --- STANTON SYSTEM ---
+
+INVALID_LOCATION_ID=Main Menu
+StantonSolarSystem=Stanton Space
+
+# -- Stanton I: Hurston --
+Stanton1=Hurston
+Stanton1_Lorville=Lorville
+RR_HUR_LEO=Everus Harbor
+Stanton1_CommArray_ST1-61=Comm Array ST1-61
+
+# -- Hurston Lagrange Points --
+Stanton1_HUR_L1=HUR-L1 Green Glade Station
+Stanton1_HUR_L2=HUR-L2 Faithful Dream Station
+Stanton1_HUR_L3=HUR-L3 Thundering Express Station
+Stanton1_HUR_L4=HUR-L4 [Unconfirmed]
+Stanton1_HUR_L5=HUR-L5 High Course Station
+
+# -- Hurston Surface Locations --
+Stanton1_HDMS_Edmond=HDMS Edmond
+Stanton1_HDMS_Hadley=HDMS Hadley
+Stanton1_HDMS_Oparei=HDMS Oparei
+Stanton1_HDMS_Pinewood=HDMS Pinewood
+Stanton1_HDMS_Stanhope=HDMS Stanhope
+Stanton1_HDMS_Thedus=HDMS Thedus
+Stanton1_HDSF_Adlai=HDSF Adlai
+Stanton1_HDSF_Barnabas=HDSF Barnabas
+Stanton1_HDSF_Breckinridge=HDSF Breckinridge
+Stanton1_HDSF_Colfax=HDSF Colfax
+Stanton1_HDSF_Damaris=HDSF Damaris
+Stanton1_HDSF_Elbridge=HDSF Elbridge
+Stanton1_HDSF_Hendricks=HDSF Hendricks
+Stanton1_HDSF_Hiram=HDSF Hiram
+Stanton1_HDSF_Hobart=HDSF Hobart
+Stanton1_HDSF_Ishmael=HDSF Ishmael
+Stanton1_HDSF_Millerand=HDSF Millerand
+Stanton1_HDSF_Rufus=HDSF Rufus
+Stanton1_HDSF_Sherman=HDSF Sherman
+Stanton1_HDSF_Tamar=HDSF Tamar
+Stanton1_HDSF_Tompkins=HDSF Tompkins
+Stanton1_HDSF_Zacharias=HDSF Zacharias
+Stanton1_HDRSO_Bramen=HDRSO Bramen
+Stanton1_Security_Depot_Hurston_1=Security Depot Hurston-1
+Stanton1_Reclamation_and_Disposal_Orinth=Reclamation & Disposal Orinth
+Stanton1_HDMO_Calthrope=HDMO Calthrope
+Stanton1_Downed_Relay_AC_652=Downed Relay AC-652
+Stanton1_Rappel=Rappel
+Stanton1_Derelict_Outpost_TBD=Derelict Outpost TBD
+
+# -- Stanton I-a: Arial --
+Stanton1a=Arial
+Stanton1a_HDMS_Bezdek=HDMS Bezdek
+Stanton1a_HDMS_Lathan=HDMS Lathan
+
+# -- Stanton I-b: Aberdeen --
+Stanton1b=Aberdeen
+Stanton1b_HDMS_Anderson=HDMS Anderson
+Stanton1b_HDMS_Norgaard=HDMS Norgaard
+
+# -- Stanton I-c: Magda --
+Stanton1c=Magda
+Stanton1c_HDMS_Perlman=HDMS Perlman
+
+# -- Stanton I-d: Ita --
+Stanton1d=Ita
+Stanton1d_HDMS_Ryder=HDMS Ryder
+Stanton1d_HDMS_Woodruff=HDMS Woodruff
+
+# -- Stanton II: Crusader --
+Stanton2=Crusader
+Stanton2_Orison=Orison
+RR_CRU_LEO=Seraphim Station
+Stanton2_CommArray_ST2-47=Comm Array ST2-47
+Stanton2_CommArray_ST2-55=Comm Array ST2-55
+Stanton2_CommArray_ST2-76=Comm Array ST2-76
+
+# -- Crusader Lagrange Points --
+Stanton2_CRU_L1=CRU-L1 Ambitious Dream Station
+Stanton2_CRU_L2=CRU-L2
+Stanton2_CRU_L3=CRU-L3
+Stanton2_CRU_L4=CRU-L4 Shallow Fields Station
+Stanton2_CRU_L5=CRU-L5 Beautiful Glen Station
+
+# -- Crusader Surface Locations --
+Stanton2_Prospect_Point=Prospect Point
+
+# -- Stanton II-a: Cellin --
+Stanton2a=Cellin
+Stanton2a_Ship_Cave_N80=Ship Cave N80
+Stanton2a_Ship_Cave_S11=Ship Cave S11
+Stanton2a_Security_Post_Kareah=Security Post Kareah
+
+# -- Stanton II-b: Daymar --
+Stanton2b=Daymar
+Stanton2b_Brio's_Breaker_Yard=Brio's Breaker Yard
+Stanton2b_Shubin_Mining_Facility_SCD-1=Shubin Mining Facility SCD-1
+Stanton2b_Kudre_Ore_Derelict_Outpost=Kudre Ore Derelict Outpost
+Stanton2b_Caterpillar_Wreck_Site=Caterpillar Wreck Site
+Stanton2b_Daymar_Canyons_Racetrack=Daymar Canyons Racetrack
+
+# -- Stanton II-c: Yela --
+Stanton2c=Yela
+Stanton2c_Grim_HEX=Grim HEX
+Stanton2c_ArcCorp_Mining_Area_157=ArcCorp Mining Area 157
+Stanton2c_Benson_Mining_Outpost=Benson Mining Outpost
+Stanton2c_Deakins_Research_Outpost=Deakins Research Outpost
+Stanton2c_Jumptown=Jumptown
+Stanton2c_NT-999-XX=NT-999-XX
+Stanton2c_NT-999-XXII=NT-999-XXII
+Stanton2c_Security_Post_Opal=Security Post Opal
+Stanton2c_Security_Post_Wan=Security Post Wan
+Stanton2c_Utopia=Utopia
+
+# -- Yela Public Shelters --
+Stanton2c_Aston_Ridge_Aid_Shelter=Aston Ridge Aid Shelter
+Stanton2c_Kosso_Basin_Aid_Shelter=Kosso Basin Aid Shelter
+Stanton2c_Nakamura_Valley_Aid_Shelter=Nakamura Valley Aid Shelter
+Stanton2c_Talarine_Divide_Aid_Shelter=Talarine Divide Aid Shelter
+
+# -- Stanton III: ArcCorp --
+Stanton3=ArcCorp
+Stanton3_Area18=Area18
+Stanton3_Riker_Memorial_Spaceport=Riker Memorial Spaceport
+RR_ARC_LEO=Baijini Point
+Stanton3_CommArray_ST3-90=Comm Array ST3-90
+
+# -- ArcCorp Lagrange Points --
+Stanton3_ARC_L1=ARC-L1 Wide Forest Station
+Stanton3_ARC_L2=ARC-L2 Lively Pathway Station
+Stanton3_ARC_L3=ARC-L3 Modern Express Station
+Stanton3_ARC_L4=ARC-L4 Faint Glen Station
+Stanton3_ARC_L5=ARC-L5 Yellow Core Station
+
+# -- ArcCorp Surface Locations --
+Stanton3_Area04=Area04
+Stanton3_Area06=Area06
+Stanton3_Area07=Area07
+Stanton3_Area11=Area11
+Stanton3_Area17=Area17
+Stanton3_Area20=Area20
+Stanton3_Area26=Area26
+Stanton3_Area39=Area39
+
+# -- Stanton III-a: Lyria --
+Stanton3a=Lyria
+Stanton3a_Paradise_Cove=Paradise Cove
+Stanton3a_SAL_5_Wrecksite=SAL-5 Wrecksite
+Stanton3a_SAL_2_Wrecksite=SAL-2 Wrecksite
+Stanton3a_Humboldt_Mines=Humboldt Mines
+Stanton3a_Loveridge_Mineral_Reserve=Loveridge Mineral Reserve
+Stanton3a_Security_Depot_Lyria-1=Security Depot Lyria-1
+Stanton3a_Shubin_Mining_Facility_SAL-2=Shubin Mining Facility SAL-2
+Stanton3a_Shubin_Mining_Facility_SAL-5=Shubin Mining Facility SAL-5
+Stanton3a_Shubin_Processing_Facility_SPAL-3=Shubin Processing Facility SPAL-3
+
+# -- Stanton III-b: Wala --
+Stanton3b_=Wala
+Stanton3b_Samson_and_Sons_Salvage_Center=Samson & Sons Salvage Center
+Stanton3b_Wala_Salvage_Yard=Wala Salvage Yard
+Stanton3b_Wreck_Site_1=Wreck Site 1
+Stanton3b_Wreck_Site_2=Wreck Site 2
+
+# -- Stanton IV: microTech --
+Stanton4=MicroTech
+Stanton4_New_Babbage=New Babbage
+RR_MIC_LEO=Port Tressler
+CommArray_ST4-22=Comm Array ST4-22
+
+# -- microTech Lagrange Points --
+Stanton4_MIC_L1=MIC-L1 Shallow Frontier Station
+Stanton4_MIC_L2=MIC-L2 Long Forest Station
+Stanton4_MIC_L3=MIC-L3 Endless Odyssey Station
+Stanton4_MIC_L4=MIC-L4 Red Crossroads Station
+Stanton4_MIC_L5=MIC-L5 Modern Icarus Station
+
+# -- microTech Surface Locations --
+Stanton4_Calhoun_Pass_Emergency_Shelter=Calhoun Pass Emergency Shelter
+Stanton4_Clear_View_Emergency_Shelter=Clear View Emergency Shelter
+Stanton4_Nuiqsut_Emergency_Shelter=Nuiqsut Emergency Shelter
+Stanton4_Point_Wain_Emergency_Shelter=Point Wain Emergency Shelter
+Stanton4_MT_DataCenter_2UB-RB9-5=MT DataCenter 2UB-RB9-5
+Stanton4_MT_DataCenter_4HJ-LVE-A=MT DataCenter 4HJ-LVE-A
+Stanton4_MT_DataCenter_5WQ-R2V-C=MT DataCenter 5WQ-R2V-C
+Stanton4_MT_DataCenter_8FK-Q2X-K=MT DataCenter 8FK-Q2X-K
+Stanton4_MT_DataCenter_D79-ECG-R=MT DataCenter D79-ECG-R
+Stanton4_MT_DataCenter_E2Q-NSG-Y=MT DataCenter E2Q-NSG-Y
+Stanton4_MT_DataCenter_QVX-J88-J=MT DataCenter QVX-J88-J
+Stanton4_MT_DataCenter_TMG-XEV-2=MT DataCenter TMG-XEV-2
+Stanton4_Rayari_Deltana_Research_Outpost=Rayari Deltana Research Outpost
+Stanton4_Shubin_Mining_Facility_SM0-10=Shubin Mining Facility SM0-10
+Stanton4_Shubin_Mining_Facility_SM0-13=Shubin Mining Facility SM0-13
+Stanton4_Shubin_Mining_Facility_SM0-18=Shubin Mining Facility SM0-18
+Stanton4_Shubin_Mining_Facility_SM0-22=Shubin Mining Facility SM0-22
+Stanton4_The_Necropolis=The Necropolis
+Stanton4_Outpost_54=Outpost 54
+
+# -- Stanton IV-a: Calliope --
+Stanton4a=Calliope
+Stanton4a_Rayari_Anvik_Research_Outpost=Rayari Anvik Research Outpost
+Stanton4a_Rayari_Kaltag_Research_Outpost=Rayari Kaltag Research Outpost
+Stanton4a_Shubin_Mining_Facility_SMCa-6=Shubin Mining Facility SMCa-6
+Stanton4a_Shubin_Mining_Facility_SMCa-8=Shubin Mining Facility SMCa-8
+Stanton4a_Shubin_Processing_Facility_SPMC-1=Shubin Processing Facility SPMC-1
+Stanton4a_Shubin_Processing_Facility_SPMC-3=Shubin Processing Facility SPMC-3
+Stanton4a_Shubin_Processing_Facility_SPMC-5=Shubin Processing Facility SPMC-5
+Stanton4a_Shubin_Processing_Facility_SPMC-10=Shubin Processing Facility SPMC-10
+Stanton4a_Shubin_Processing_Facility_SPMC-11=Shubin Processing Facility SPMC-11
+Stanton4a_Shubin_Processing_Facility_SPMC-14=Shubin Processing Facility SPMC-14
+Stanton4a_Ravens_Roost=Raven's Roost
+
+# -- Stanton IV-b: Clio --
+Stanton4b=Clio
+Stanton4b_Rayari_Cantwell_Research_Outpost=Rayari Cantwell Research Outpost
+Stanton4b_Rayari_McGrath_Research_Outpost=Rayari McGrath Research Outpost
+Stanton4b_Snake_Pit_Racetrack=Snake Pit Racetrack
+
+# -- Stanton IV-c: Euterpe --
+Stanton4c=Euterpe
+Stanton4c_Buds_Growery=Bud's Growery
+Stanton4c_Devlin_Scrap_and_Salvage=Devlin Scrap & Salvage
+Stanton4c_Icebreaker=Icebreaker
+
+
+RR_JP_StantonPyro=Pyro Gateway
+
+# --- PYRO SYSTEM ---
