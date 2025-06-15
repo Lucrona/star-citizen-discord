@@ -5,3 +5,4 @@ screeninfo
 pypresence
 requests
 torch
+psutil
