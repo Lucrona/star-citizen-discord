@@ -18,7 +18,7 @@ Display your current in-game location from **Star Citizen** directly in Discord 
 ---
 
 ## 🪵 Latest Changelog
-## [0.05] – 2025-06-15
+### [0.05] – 2025-06-15
 ### Added
 - ❌ **Removed “LZ” fallback** entirely – now only scans for the “Current player location” block.
 - 🗂️ **AppData storage** for all alias, version, and debug files under `%APPDATA%\StarCitizenPresence\`.
