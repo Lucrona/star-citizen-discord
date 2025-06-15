@@ -4,7 +4,14 @@
 
 __version__ = "0.05"
 
-print(f"🚀 Star Citizen Rich Presence v{__version__} Started")
+# —————————————————————————————————————————
+# │ 🚀 Star Citizen Rich Presence v0.05 │
+# │        created by Lucrona           │
+# —————————————————————————————————————————
+print("+" + "—" * 38 + "+")
+print(f"| 🚀 Star Citizen Rich Presence v{__version__} |")
+print(f"|        created by Lucrona         |")
+print("+" + "—" * 38 + "+")
 
 import os
 import time
@@ -42,18 +49,26 @@ SAVE_DEBUG_IMAGE        = True
 ENABLE_LOGGING_LOCATION = True
 AUTO_UPDATE_ALIASES     = True
 
-GITHUB_RAW_ALIAS_URL    = "https://raw.githubusercontent.com/Lucrona/star-citizen-discord/main/Locations/location_aliases.txt"
-GITHUB_VERSION_URL      = "https://raw.githubusercontent.com/Lucrona/star-citizen-discord/main/Locations/loc_version.txt"
+GITHUB_RAW_ALIAS_URL = (
+    "https://raw.githubusercontent.com/Lucrona/"
+    "star-citizen-discord/main/Locations/location_aliases.txt"
+)
+GITHUB_VERSION_URL = (
+    "https://raw.githubusercontent.com/Lucrona/"
+    "star-citizen-discord/main/Locations/loc_version.txt"
+)
 
 MAIN_MENU_NOISE = {
     "o,_qdfinalize", "qdfinalize", "2,_qdfinalize"
 }
 
 # ================================
-# 🌐 AUTO-UPDATE LOCATION ALIASES
+# 🌐 AUTO-UPDATE LOCATION DATA
 # ================================
 def get_local_version() -> str:
-    return VERSION_FILE.read_text(encoding="utf-8").strip() if VERSION_FILE.exists() else "0.0.0"
+    if not VERSION_FILE.exists():
+        return "0.0.0"
+    return VERSION_FILE.read_text(encoding="utf-8").strip()
 
 def get_remote_version() -> str:
     try:
@@ -64,34 +79,38 @@ def get_remote_version() -> str:
         print(f"⚠️ Version check failed: {e}")
     return ""
 
-def update_location_aliases_from_github(remote_version: str=None):
-    print("🔄 Checking for location data update...")
-    if remote_version is None:
-        remote_version = get_remote_version()
-    if not remote_version:
+def update_location_aliases_from_github() -> tuple[str,str]:
+    print("🔄 Checking for location data update…")
+    remote = get_remote_version()
+    local  = get_local_version()
+    if not remote:
         print("⚠️ Could not fetch remote version. Skipping update.")
-        return
+        return local, remote
 
-    local_version = get_local_version()
-    if remote_version != local_version:
-        print(f"📦 New aliases v{remote_version} available (Local v{local_version})")
+    if remote != local:
+        print(f"📦 New location data v{remote} available (Local v{local})")
         try:
             r = requests.get(GITHUB_RAW_ALIAS_URL, timeout=5)
-            if r.status_code == 200:
-                ALIAS_FILE.write_text(r.text, encoding="utf-8")
-                VERSION_FILE.write_text(remote_version, encoding="utf-8")
-                print("✅ Aliases updated from GitHub.")
-            else:
-                print(f"❌ Failed to download aliases: HTTP {r.status_code}")
+            r.raise_for_status()
+            ALIAS_FILE.write_text(r.text, encoding="utf-8")
+            VERSION_FILE.write_text(remote, encoding="utf-8")
+            print("✅ Aliases updated from GitHub.")
         except Exception as e:
             print(f"❌ GitHub update error: {e}")
     else:
-        print("✔️ Aliases are up to date.")
+        print("✔️ Location data is up to date.")
 
-def display_alias_version(remote_version: str=None):
-    print(f"📄 Local alias version:  v{get_local_version()}")
-    rv = remote_version or get_remote_version()
-    print(f"🌐 Remote alias version: v{rv}" if rv else "⚠️ Could not fetch remote alias version.")
+    return local, remote
+
+def display_alias_versions(local: str, remote: str):
+    # extract numeric part (assumes last whitespace-separated token is version)
+    local_v  = local.split()[-1]
+    remote_v = remote.split()[-1] if remote else ""
+    print(f"📄 Local aliases version: {local_v}")
+    if remote_v:
+        print(f"🌐 Remote aliases version: {remote_v}")
+    else:
+        print("⚠️ Could not fetch remote alias version.")
 
 # ================================
 # 📂 LOAD LOCATION ALIASES
@@ -149,17 +168,15 @@ def get_location_text() -> str:
     img = ImageGrab.grab(bbox=get_location_bbox())
     if SAVE_DEBUG_IMAGE:
         img.save(DEBUG_IMAGE_PATH)
-    arr = np.array(img)
+    arr     = np.array(img)
     results = reader.readtext(arr)
-    texts = [t for (_,t,conf) in results if conf>0.4 and len(t.strip())>2]
-    flat = " ".join(t.lower() for t in texts)
+    texts   = [t for (_,t,conf) in results if conf>0.4 and len(t.strip())>2]
+    flat    = " ".join(t.lower() for t in texts)
 
-    # main menu noise
     for t in texts:
         if normalize_ocr(t) in MAIN_MENU_NOISE:
             return resolve_location_name("INVALID_LOCATION_ID")
 
-    # only "current player location" block
     if "current player location" in flat:
         for i, t in enumerate(texts):
             if "location" in t.lower() and i+1 < len(texts):
@@ -191,16 +208,15 @@ def is_star_citizen_running() -> bool:
 # ================================
 if __name__ == "__main__":
     if AUTO_UPDATE_ALIASES:
-        rv = get_remote_version()
-        update_location_aliases_from_github(rv)
-        display_alias_version(rv)
+        local_v, remote_v = update_location_aliases_from_github()
+        display_alias_versions(local_v, remote_v)
 
     location_aliases = load_location_aliases()
-    start_time = time.time()
-    rpc        = init_discord() if USE_DISCORD else None
+    start_time       = time.time()
+    rpc              = init_discord() if USE_DISCORD else None
 
     game_running = False
-    dots = ""
+    dots         = ""
 
     while True:
         if not is_star_citizen_running():
