@@ -17,7 +17,7 @@ Display your current in-game location from **Star Citizen** directly in Discord 
 
 ---
 
-# 🪵 Latest Changelog
+## 🪵 Latest Changelog
 ## [0.05] – 2025-06-15
 ### Added
 - ❌ **Removed “LZ” fallback** entirely – now only scans for the “Current player location” block.
