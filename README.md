@@ -21,7 +21,8 @@ Display your current in-game location from **Star Citizen** directly in Discord 
 ## 📘 Coming Soon
 
 - 🖼️ GUI launcher with system tray icon  
-- 🪐 Pyro System  
+- 🪐 Pyro System
+- Stealth Mode, Hide for your pirate needs
 - ![screenshot](https://i.imgur.com/3WOnWIo.png) RSI Profile link and ORG
 - Code optmizations 
 
