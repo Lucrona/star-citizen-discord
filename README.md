@@ -61,22 +61,22 @@ Only the `.exe` is visible — all other data is stored behind-the-scenes.
 ---
 
 ## 🪵 Latest Changelog
-### [0.05] – 2025-06-15
+##[ 0.06] – 2025-06-16
 ### Added
-- ❌ **Removed “LZ” fallback** entirely – now only scans for the “Current player location” block.
-- 🗂️ **AppData storage** for all alias, version, and debug files under `%APPDATA%\StarCitizenPresence\`.
-- 🔄 **GitHub auto-update** simplified: only pulls `location_aliases.txt` & `loc_version.txt` from the `Locations/` folder.
-- 🧵 **Waiting loop** now clears RPC on game exit and shows animated dots until SC launches.
-- 🔍 **OCR logic** and fuzzy-matching refactored for speed and clarity.
+
+Main script version check via drp_version.txt hosted on GitHub
+
+Notification for users when a newer version is available
 
 ### Changed
-- ✨ Bumped internal script version to **0.05** and display on startup.
-- 📈 Fuzzy matching cutoff tuned to 0.7, showing top 3 candidates.
-- 🚀 Startup now shows local vs remote alias version once.
+
+Renamed script to starcitizen_drp.py
+
+Cleaned version display: removed redundant “Location Version” label
 
 ### Fixed
-- 🐛 Double-print of “alias file up to date” removed.
-- 📄 Main-menu noise handling consolidated into a single list.
+
+False positives when comparing script version numbers (now uses proper version parsing)
 
 ---
 
