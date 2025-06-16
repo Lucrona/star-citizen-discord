@@ -32,7 +32,7 @@ Display your current in-game location from **Star Citizen** directly in Discord 
 
 1. [**Download the latest version**](https://github.com/Lucrona/star-citizen-discord/releases/download/v0.06/starcitizen_drp.exe)
 2. **Run the tool** while you're in-game.
-3. Ensure you have **r_displayinfo 2** displayed, As thats how it read the data,  **Press ` then type r_displayinfo 2**
+3. Ensure you have **r_displayinfo 1** displayed, As thats how it read the data,  **Press ` then type r_displayinfo 1**
 4. It will display your location on Discord — that's it!
 
 You don't need to install anything else. It handles everything automatically.
