@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
+##[ 0.06] – 2025-06-16
+### Added
+
+Main script version check via drp_version.txt hosted on GitHub
+
+Notification for users when a newer version is available
+
+### Changed
+
+Renamed script to starcitizen_drp.py
+
+Cleaned version display: removed redundant “Location Version” label
+
+### Fixed
+
+False positives when comparing script version numbers (now uses proper version parsing)
+
+---
+
 ## [0.05] – 2025-06-15
 ### Added
 - ❌ **Removed “LZ” fallback** entirely – now only scans for the “Current player location” block.
