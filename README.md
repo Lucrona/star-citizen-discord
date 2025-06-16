@@ -61,7 +61,7 @@ Only the `.exe` is visible — all other data is stored behind-the-scenes.
 ---
 
 ## 🪵 Latest Changelog
-##[ 0.06] – 2025-06-16
+## [ 0.06] – 2025-06-16
 ### Added
 
 Main script version check via drp_version.txt hosted on GitHub
