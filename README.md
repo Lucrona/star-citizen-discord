@@ -1,10 +1,9 @@
 # 🛰️ Star Citizen Discord Rich Presence
-## Exe Version: 0.06 | Location Data Version: 0.04
- 
+
 Display your current in-game location from **Star Citizen** directly in Discord Rich Presence — automatically.
 
 ![screenshot](https://i.imgur.com/PZC7QJg.png)    <img src="https://i.imgur.com/DGgfxVK.png" width="270" height="110" />
-
+### Exe Version: **0.06**  |  Location Data Version: **0.04**
 
 ---
 
