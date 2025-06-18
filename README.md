@@ -62,32 +62,42 @@ Only the `.exe` is visible — all other data is stored behind-the-scenes.
 ---
 
 ## 🪵 Latest Changelog
-### 📝Changelog: v0.07 18/06/2025
-
-✅ Focus: CPU Performance, Stability, Logging
+## 📦 [0.07] – 2025-06-17  
+**✅ Focus: CPU Performance, Stability, Logging**
 
 ### ⚙️ Core Improvements
-🧠 Lazy EasyOCR Initialization: easyocr.Reader is now only created after game launch is detected, improving startup time and reducing CPU strain.
+- 🧠 **Lazy EasyOCR Initialization**  
+  `easyocr.Reader` is now only created after game launch is detected, improving startup time and reducing CPU strain.
 
-🖤 Grayscale Capture: Screen capture is now converted to grayscale before OCR to reduce processing time.
+- 🖤 **Grayscale Capture**  
+  Screen captures are now converted to grayscale before OCR to reduce processing time.
 
-⏱️ Accurate Interval Timing: CAPTURE_INTERVAL is now enforced by subtracting processing time for consistent capture pacing.
+- ⏱️ **Accurate Interval Timing**  
+  `CAPTURE_INTERVAL` now compensates for OCR+processing duration for consistent pacing.
 
-🧼 Numpy Removed: Eliminated np.array conversion for images to keep memory overhead minimal.
+- 🧼 **Numpy Removed**  
+  Removed the `np.array` conversion from image capture to reduce memory usage and boost performance.
 
-### 🛠️Stability & Crash Prevention
+---
 
-🚫 Reader Safety Check: If easyocr.Reader isn’t initialized, get_location_text() will safely return "Unknown" without crashing.
+### 🛠️ Stability & Crash Prevention
+- 🚫 **Reader Safety Check**  
+  If `easyocr.Reader` isn’t initialized, `get_location_text()` will safely return `"Unknown"`.
 
-🛑 No-OCR Short-Circuit: Script now cleanly exits location parsing if OCR returns no results (NO_OCR_RESULTS).
+- 🛑 **No-OCR Short-Circuit**  
+  If OCR returns no results, the script skips parsing and logs `NO_OCR_RESULTS`.
 
-### 📝Logging & Debugging
+---
 
-✂️ Trim Debug Logs: unmatched_locations.log is now trimmed to the last 100 entries to avoid bloat.
+### 📝 Logging & Debugging
+- ✂️ **Trim Debug Logs**  
+  `unmatched_locations.log` is trimmed to the last 100 lines to prevent bloat.
 
-🧹 Stripped Empty Lines: Empty/whitespace lines are now excluded from log retention.
+- 🧹 **Stripped Empty Lines**  
+  Empty/whitespace lines are now excluded from log retention.
 
-⚠️ Noise Detection Logs: Main menu noise entries now log as "INVALID_LOCATION_ID" to help with debugging.
+- ⚠️ **Noise Detection Logging**  
+  Known main menu entries are logged as `"INVALID_LOCATION_ID"` for clarity.
 
 ---
 
