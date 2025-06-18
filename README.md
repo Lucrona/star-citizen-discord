@@ -3,7 +3,7 @@
 Display your current in-game location from **Star Citizen** directly in Discord Rich Presence — automatically.
 
 ![screenshot](https://i.imgur.com/PZC7QJg.png)    <img src="https://i.imgur.com/DGgfxVK.png" width="270" height="110" />
-### Exe Version: **0.06**  |  Location Data Version: **0.04**
+### Exe Version: **0.07**  |  Location Data Version: **0.04**
 
 ---
 
@@ -62,22 +62,32 @@ Only the `.exe` is visible — all other data is stored behind-the-scenes.
 ---
 
 ## 🪵 Latest Changelog
-## [ 0.06] – 2025-06-16
-### Added
+### 📝Changelog: v0.07 18/06/2025
 
-Main script version check via drp_version.txt hosted on GitHub
+✅ Focus: CPU Performance, Stability, Logging
 
-Notification for users when a newer version is available
+### ⚙️ Core Improvements
+🧠 Lazy EasyOCR Initialization: easyocr.Reader is now only created after game launch is detected, improving startup time and reducing CPU strain.
 
-### Changed
+🖤 Grayscale Capture: Screen capture is now converted to grayscale before OCR to reduce processing time.
 
-Renamed script to starcitizen_drp.py
+⏱️ Accurate Interval Timing: CAPTURE_INTERVAL is now enforced by subtracting processing time for consistent capture pacing.
 
-Cleaned version display: removed redundant “Location Version” label
+🧼 Numpy Removed: Eliminated np.array conversion for images to keep memory overhead minimal.
 
-### Fixed
+### 🛠️Stability & Crash Prevention
 
-False positives when comparing script version numbers (now uses proper version parsing)
+🚫 Reader Safety Check: If easyocr.Reader isn’t initialized, get_location_text() will safely return "Unknown" without crashing.
+
+🛑 No-OCR Short-Circuit: Script now cleanly exits location parsing if OCR returns no results (NO_OCR_RESULTS).
+
+### 📝Logging & Debugging
+
+✂️ Trim Debug Logs: unmatched_locations.log is now trimmed to the last 100 entries to avoid bloat.
+
+🧹 Stripped Empty Lines: Empty/whitespace lines are now excluded from log retention.
+
+⚠️ Noise Detection Logs: Main menu noise entries now log as "INVALID_LOCATION_ID" to help with debugging.
 
 ---
 
