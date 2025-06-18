@@ -4,6 +4,19 @@ All notable changes to this project will be documented here.
 
 ---
 
+## [0.08] – 2025-06-17  
+### ✅ Focus: Build Stability, Compression, Redundancy Cleanup
+
+### ⚙️ Core Improvements
+- 📦 **EXE Compression Enabled:** Integrated UPX compression using external UPX path to reduce executable size.
+
+### 🔧 Code Cleanup
+- 🧹 **Removed Unused Imports:** Removed `Image` from `PIL` as it was unused.
+- 🧼 **Simplified Version Print Logic:** Eliminated double "Location Version" display.
+- 🪶 **Removed Unused Variables:** Removed `flat` text from OCR parsing as it was no longer used.
+
+---
+
 ## 📦 [0.07] – 2025-06-17  
 **✅ Focus: CPU Performance, Stability, Logging**
 
