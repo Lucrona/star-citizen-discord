@@ -62,42 +62,16 @@ Only the `.exe` is visible — all other data is stored behind-the-scenes.
 ---
 
 ## 🪵 Latest Changelog
-## 📦 [0.07] – 2025-06-17  
-**✅ Focus: CPU Performance, Stability, Logging**
+## [0.08] – 2025-06-17  
+### ✅ Focus: Build Stability, Compression, Redundancy Cleanup
 
 ### ⚙️ Core Improvements
-- 🧠 **Lazy EasyOCR Initialization**  
-  `easyocr.Reader` is now only created after game launch is detected, improving startup time and reducing CPU strain.
+- 📦 **EXE Compression Enabled:** Integrated UPX compression using external UPX path to reduce executable size.
 
-- 🖤 **Grayscale Capture**  
-  Screen captures are now converted to grayscale before OCR to reduce processing time.
-
-- ⏱️ **Accurate Interval Timing**  
-  `CAPTURE_INTERVAL` now compensates for OCR+processing duration for consistent pacing.
-
-- 🧼 **Numpy Removed**  
-  Removed the `np.array` conversion from image capture to reduce memory usage and boost performance.
-
----
-
-### 🛠️ Stability & Crash Prevention
-- 🚫 **Reader Safety Check**  
-  If `easyocr.Reader` isn’t initialized, `get_location_text()` will safely return `"Unknown"`.
-
-- 🛑 **No-OCR Short-Circuit**  
-  If OCR returns no results, the script skips parsing and logs `NO_OCR_RESULTS`.
-
----
-
-### 📝 Logging & Debugging
-- ✂️ **Trim Debug Logs**  
-  `unmatched_locations.log` is trimmed to the last 100 lines to prevent bloat.
-
-- 🧹 **Stripped Empty Lines**  
-  Empty/whitespace lines are now excluded from log retention.
-
-- ⚠️ **Noise Detection Logging**  
-  Known main menu entries are logged as `"INVALID_LOCATION_ID"` for clarity.
+### 🔧 Code Cleanup
+- 🧹 **Removed Unused Imports:** Removed `Image` from `PIL` as it was unused.
+- 🧼 **Simplified Version Print Logic:** Eliminated double "Location Version" display.
+- 🪶 **Removed Unused Variables:** Removed `flat` text from OCR parsing as it was no longer used.
 
 ---
 
